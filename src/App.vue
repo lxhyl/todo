@@ -1,28 +1,44 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <button @click="show" class="weui-btn weui-btn_primary">test</button>
+    <button @click="close" class="weui-btn weui-btn_warn">关闭</button>
+     <button @click="closeAll" class="weui-btn weui-btn_warn">关闭所有</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+   
+  },
+  data(){
+    return {
+      messageId:null,
+    }
+  },
+  created(){
+  },
+  methods:{
+    show(){
+       this.messageId = this.$message(
+         {
+           showClose:true
+         }
+       ).MESSAGE_ID
+    },
+    close(){
+      this.$message().close(this.messageId);
+    },
+    closeAll(){
+       this.$message().closeAll();
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
