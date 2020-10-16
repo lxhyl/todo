@@ -48,7 +48,6 @@ export default {
   created() {},
   methods:{
       closeMessage(){
-          console.log(1,this)
           this.$message().close(this.MESSAGE_ID)
       }
   }

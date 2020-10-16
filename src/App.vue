@@ -23,9 +23,11 @@ export default {
   },
   methods:{
     show(){
+       let isShow = [true,false]
        this.messageId = this.$message(
-         {
-           showClose:true
+         { 
+           message:`信息-${Math.random()}`,
+           showClose:isShow[parseInt(Math.random()*2-0.1)]
          }
        ).MESSAGE_ID
     },

@@ -17,8 +17,27 @@ let MessageNode = Vue.extend(Message);
 // 所有message对象
 let allMessages = Object.create({});
 // 实例的个数
-let messagesNum = 0;
-
+//  对象形式便于监听改动
+let messagesNum = {}
+Object.defineProperty(messagesNum, 'value', {
+    get:function(){
+        
+        return Object.keys(allMessages).length
+    },
+    // 值改变时，按顺序设置message对象的style.top
+    set: function (value) {
+        let num = 0;
+        for(let key in allMessages){
+           if(num === 0){
+               allMessages[key].$el.style.top = '10px'
+           }else{
+               allMessages[key].$el.style.top = `${num * 60 + 10}px`
+           }
+           num++;
+        }
+        return value
+    }
+})
 
 /* 
 *  关闭message
@@ -27,18 +46,22 @@ let messagesNum = 0;
 MessageNode.prototype.close = key => {
     if (key && key in allMessages) {
         allMessages[key].$el.parentNode.removeChild(allMessages[key].$el)
-        messagesNum--
+        /*
+        *  必须先删除，再改变值，以解决 监听message数量时key比value多的bug
+        */
         delete allMessages[key]
+        messagesNum.value--
     }
 }
 
 // 关闭所有
 MessageNode.prototype.closeAll = () => {
     for (let i in allMessages) {
+        
         allMessages[i].$el.parentNode.removeChild(allMessages[i].$el)
         delete allMessages[i]
+      
     }
-    messagesNum = 0;
 }
 
 
@@ -73,14 +96,14 @@ const message = option => {
     if (_isClose) { return messageNode };
     // 递增实例的对象
     // 如果是为了关闭而创建的实例，messagesNum是不应该增加的。所以放到return之后
-    messagesNum++;
+    messagesNum.value ++;
 
     // 插入body
     let body = document.body;
-    if (messagesNum === 1) {
+    if (messagesNum.value === 0) {
         messageNode.$el.style.top = '10px'
     } else {
-        messageNode.$el.style.top = `${(messagesNum - 1) * 60 + 10}px`
+        messageNode.$el.style.top = `${(messagesNum.value) * 60 + 10}px`
     }
     body.appendChild(messageNode.$el)
 
