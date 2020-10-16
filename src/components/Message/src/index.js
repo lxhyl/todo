@@ -8,7 +8,8 @@ const DEFALUT_OPTION = {
     type: 'info',
     message: '这是一条信息',
     delay: 1500,
-    showClose: false
+    showClose: false,
+    bgColor:null,
 }
 
 
@@ -64,7 +65,9 @@ MessageNode.prototype.closeAll = () => {
     }
 }
 
+/*
 
+*/
 
 /*
 *  工厂函数 实例化组件
@@ -75,9 +78,7 @@ const createMessage = config => {
     config = config ? config : {}
     return new MessageNode({
         el: document.createElement('div'),
-        data: () => {
-            return config
-        }
+        data: () => config
     })
 }
 
@@ -85,6 +86,7 @@ const createMessage = config => {
 *  实例化组件，返回组件
 */
 const message = option => {
+    console.log('OPTION',option)
     // 定义KEY方便查找
     const _Key = createID(7);
     // 判断是否是为了关闭

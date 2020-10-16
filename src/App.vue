@@ -27,7 +27,8 @@ export default {
        this.messageId = this.$message(
          { 
            message:`信息-${Math.random()}`,
-           showClose:isShow[parseInt(Math.random()*2-0.1)]
+           showClose:true,
+           type:['info','error','load','success'][Math.floor(Math.random()*4)]
          }
        ).MESSAGE_ID
     },
