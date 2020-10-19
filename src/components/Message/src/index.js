@@ -1,4 +1,3 @@
-
 import Vue from 'vue'
 import Message from "./Message"
 import createID from "../../../utils/createID"
@@ -86,7 +85,6 @@ const createMessage = config => {
 *  实例化组件，返回组件
 */
 const message = option => {
-    console.log('OPTION',option)
     // 定义KEY方便查找
     const _Key = createID(7);
     // 判断是否是为了关闭
