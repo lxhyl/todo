@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="weui-form" style="padding: 0">
+    <div
+      class="weui-form"
+      style="background-color: var(--weui-BG-0); padding: 0"
+    >
       <div class="weui-form__control-area">
         <div class="weui-cells__group weui-cells__group_form">
           <div class="weui-cells__title">新建任务</div>
@@ -62,13 +65,14 @@
           </div>
         </div>
       </div>
-      <a href="javascript:" class="weui-btn weui-btn_primary">提交</a>
+      <a @click="onSubmit" class="weui-btn weui-btn_primary">提交</a>
     </div>
   </div>
 </template>
 <script>
 import createID from "../../utils/createID";
-import { getDateBase, isFutureDate } from "../../utils/data";
+import { isFutureDate } from "../../utils/data";
+import {  DB_add, } from "../../indexedDB/index";
 export default {
   computed: {
     desWordNum() {
@@ -113,7 +117,6 @@ export default {
   data() {
     return {
       form: {
-        id: createID(10),
         title: "",
         des: "",
         data: "",
@@ -128,16 +131,34 @@ export default {
   methods: {
     conformRules() {
       for (let index in this.rules) {
-        if (!this.rules[index]) {
+        if (this.rules[index]) {
+          return false;
+        }
+      }
+      for (let index in this.form) {
+        if (!this.form[index]) {
           return false;
         }
       }
       return true;
     },
-    onSubmit() {
+    async onSubmit() {
       if (!this.conformRules()) {
-        this.$message({ message: "表单有未填项" });
+        this.$message({ message: "检查表单", type: "error" });
         return;
+      }
+      //未登录存储在本地
+      if (!this.$store.state.isLogin) {
+        console.log(this.form);
+        const res = await  DB_add(this.form);
+        this.$message({ message: "提交成功", type: "success" });
+        this.$router.push({
+            path:'/task',
+            params:{
+                type:'todo'
+            }
+        })
+        console.log(res);
       }
     },
   },

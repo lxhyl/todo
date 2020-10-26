@@ -5,7 +5,10 @@ import Router from 'vue-router';
 import Home from '../views/home/index'
 import Login from "../views/login/index"
 
-
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 Vue.use(Router)
 
@@ -28,7 +31,7 @@ const route = [
     {
         path:'/addTask',
         meta:{
-            requireAuth:true,
+            requireAuth:false,
         },
         component:() => import('../views/addTask/index')
     },
@@ -38,6 +41,13 @@ const route = [
             requireAuth:false,
         },
         component:() => import('../views/me/index')
+    },{
+        path:'/todo',
+        props:true,
+        meta:{
+            requireAuth:false
+        },
+        component:() => import('../views/task/index')
     }
 ]
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="weui-form">
+    <div class="weui-form" style="background-color: var(--weui-BG-0)">
       <div class="weui-form__text-area">
         <h2 class="weui-form__title">登录</h2>
       </div>
@@ -36,7 +36,7 @@
                   v-if="haveCode"
                   class="weui-btn weui-btn_default weui-vcode-btn"
                 >
-                  {{ time}}s
+                  {{ time }}s
                 </button>
                 <button
                   @click="getCode"
@@ -86,13 +86,13 @@ export default {
       if (reg.test(this.form.mail)) {
         this.haveCode = true;
         this.timer = setInterval(() => {
-            this.time --;
-            if(this.time <= 0){
-               clearInterval(this.timer);
-               this.timer = null;
-               this.time = 60;
-               this.haveCode = false;
-            }
+          this.time--;
+          if (this.time <= 0) {
+            clearInterval(this.timer);
+            this.timer = null;
+            this.time = 60;
+            this.haveCode = false;
+          }
         }, 1000);
         const res = await getMailCode({ mail: this.form.mail });
         if (res.status === 200) {
@@ -116,8 +116,8 @@ export default {
       if (this.rules()) {
         const res = await signIn(this.form);
         if (res.status === 200) {
-          localStorage.setItem('MAIL',this.form.mail)
-          this.form.code = '';
+          localStorage.setItem("MAIL", this.form.mail);
+          this.form.code = "";
           this.$message({
             type: "success",
             message: res.message,
@@ -126,7 +126,7 @@ export default {
           });
           this.$router.push("/");
         } else {
-          this.form.code = '';
+          this.form.code = "";
           this.$message({
             type: "error",
             message: res.message,

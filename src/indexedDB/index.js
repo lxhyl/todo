@@ -1,4 +1,4 @@
-
+import createID from "../utils/createID"
 
 if (!window.indexedDB) {
     console.log('不支持数据库')
@@ -33,13 +33,14 @@ db.onupgradeneeded = event => {
 *  添加
 */
 const DB_add = (data) => {
+    data = Object.assign({},data,{id:createID(6)})
     const request = db.transaction(['todo'], 'readwrite').objectStore('todo').add(data)
     return new Promise((resolve, reject) => {
         request.onerror = event => {
             reject(event)
         }
         request.onsuccess = event => {
-            resolve(200)
+            resolve(data.id)
         }
     })
 }

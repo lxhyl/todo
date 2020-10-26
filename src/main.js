@@ -2,8 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 // store
 import store from "./store/index"
-//
-import createID from "./utils/createID"
+
 import './style/index.css'
 import "weui";
 

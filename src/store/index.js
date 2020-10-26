@@ -4,7 +4,7 @@ Vue.use(Store);
 
 const option = {
     state:{
-        test:'111'
+        isLogin:localStorage.getItem('MAIL')
     },
     mutations:{
         changeState(state,key,newValue){

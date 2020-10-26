@@ -1,48 +1,54 @@
 <template>
-  <div>
-    {{ testData }}
-    <a @click="add" class="weui-btn weui-btn_primary">添加</a>
-    <a @click="getAll" class="weui-btn weui-btn_primary">获取所有</a>
-    <a @click="del" class="weui-btn weui-btn_primary">删除某个</a>
+  <div class="page">
+    <div class="weui-cells" style="margin: 0">
+      <div class="weui-cell weui-cell_active" v-if="$store.state.isLogin">
+        <div class="weui-cell__bd">
+          <p>名称</p>
+          <p style="font-size: 13px; color: #888">编辑信息</p>
+        </div>
+      </div>
+      <div class="weui-cell weui-cell_active" v-else style="background-color: var(--weui-BG-0);">
+        <div class="weui-cell__bd">
+          <a @click="$router.push('/login')" class="weui-btn_cell weui-btn_cell-primary">去登陆</a>
+        </div>
+      </div>
+      <div class="weui-cells__title">LIST</div>
+      <div class="weui-cell weui-cell_active weui-cell_access">
+        <div class="weui-cell__bd">
+          <span style="vertical-align: middle">待办</span>
+          <span class="weui-badge" style="margin-left: 5px">8</span>
+        </div>
+        <div class="weui-cell__ft"></div>
+      </div>
+      <div class="weui-cell weui-cell_active weui-cell_access">
+        <div class="weui-cell__bd">
+          <span style="vertical-align: middle">已办</span>
+          <span class="weui-badge" style="margin-left: 5px">8</span>
+        </div>
+        <div class="weui-cell__ft"></div>
+      </div>
+      <div class="weui-cell weui-cell_active weui-cell_access">
+        <div class="weui-cell__bd">
+          <span style="vertical-align: middle">超时</span>
+          <span class="weui-badge" style="margin-left: 5px">New</span>
+        </div>
+        <div class="weui-cell__ft"></div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
-import { DB_add,DB_getAll,DB_delete } from "../../indexedDB/index";
-import createID from '../../utils/createID'
+import createID from "../../utils/createID";
 export default {
   data() {
-    return {
-        ids:[],
-    };
+    return {};
   },
-  computed: {
-    testData() {
-      return this.$store.state.test;
-    },
+  computed: {},
+  created() {
+      console.log(this.$store.state)
   },
-  created() {},
-  methods: {
-    add() {
-       let option = {
-           id:createID(6)
-       }
-       DB_add(option).then(res => {
-           console.log(res);
-       })
-    },
-    getAll(){
-        DB_getAll().then(res => {
-            this.ids = res.map(item => item.id);
-            console.log('全部数据',res)
-        })
-    },
-    del(){
-        let id = this.ids[0];
-        DB_delete(id).then(res => {
-            this.ids.shift()
-            console.log('删除数据成功')
-        })
-    }
-  },
+  methods: {},
 };
 </script>
+<style scoped>
+</style>

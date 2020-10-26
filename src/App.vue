@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="page">
     <transition name="animation">
       <router-view />
     </transition>
@@ -15,16 +15,13 @@ export default {
     Tabbar,
   },
   data() {
-    return {
-     
-    };
+    return {};
   },
-  created() {
-     console.log(this.$store)
-  },
+  created() {},
 };
 </script>
 <style scoped>
+
 .animation-leave-active {
   position: fixed;
   animation: moveLeave 0.3s linear;
