@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import {getLoaclStorage} from '../utils/localStorage'
 
 import Home from '../views/home/index'
 import Login from "../views/login/index"
+
 
 
 Vue.use(Router)
@@ -13,7 +13,7 @@ const route = [
     {
         path: '/',
         meta:{
-            requireAuth:true,
+            requireAuth:false,
         },
         component: Home
     },
@@ -24,6 +24,20 @@ const route = [
             requireAuth:false,
         },
         component: Login
+    },
+    {
+        path:'/addTask',
+        meta:{
+            requireAuth:true,
+        },
+        component:() => import('../views/addTask/index')
+    },
+    {
+        path:'/me',
+        meta:{
+            requireAuth:false,
+        },
+        component:() => import('../views/me/index')
     }
 ]
 
@@ -43,7 +57,7 @@ const creatRouter = () => {
 const router = creatRouter();
 router.beforeEach((to,from,next) => {
     if(to.meta.requireAuth){
-        if(getLoaclStorage('USERID')){
+        if(localStorage.getItem('MAIL')){
             next()
         }else{
             next({

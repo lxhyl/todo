@@ -11,13 +11,12 @@ const service = axios.create({
 
 Vue.prototype.$axios = axios;
 
-console.log('USERID',localStorage.getItem('USERID'))
 // 请求拦截
 service.interceptors.request.use(
     config => {
         config.params = {
             _t: Date.parse(new Date()),
-            _COOKIE:localStorage.getItem('USERID'),
+            _ID:localStorage.getItem('MAIL'),
             ...config.params
         }
         return config
