@@ -42,7 +42,7 @@ const route = [
         },
         component:() => import('../views/me/index')
     },{
-        path:'/todo',
+        path:'/task',
         props:true,
         meta:{
             requireAuth:false

@@ -32,6 +32,19 @@
 </template>
 <script>
 export default {
+  beforeCreate(){
+     if(localStorage.getItem('MAIL')){
+       this.$router.push({
+         path:'/task',
+         params:{
+           type:'todo'
+         }
+       })
+     }
+  },
+  created(){
+     
+  },
   methods: {},
 };
 </script>

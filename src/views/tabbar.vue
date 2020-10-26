@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="weui-tabbar fixed-bottom">
-      <div class="weui-tabbar__item weui-bar__item_on">
+      <div @click="routerToTask" class="weui-tabbar__item weui-bar__item_on">
         <div style="display: inline-block; position: relative">
           <svg
             t="1603435144236"
@@ -88,6 +88,14 @@ export default {
    methods:{
      addTask(){
        this.$router.push('/addTask')
+     },
+     routerToTask(){
+       this.$router.push({
+         path:'/task',
+         params:{
+           type:'todo'
+         }
+       })
      }
    }
 }
