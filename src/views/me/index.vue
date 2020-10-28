@@ -7,9 +7,17 @@
           <p style="font-size: 13px; color: #888">编辑信息</p>
         </div>
       </div>
-      <div class="weui-cell weui-cell_active" v-else style="background-color: var(--weui-BG-0);">
+      <div
+        class="weui-cell weui-cell_active"
+        v-else
+        style="background-color: var(--weui-BG-0)"
+      >
         <div class="weui-cell__bd">
-          <a @click="$router.push('/login')" class="weui-btn_cell weui-btn_cell-primary">去登陆</a>
+          <a
+            @click="$router.push('/login')"
+            class="weui-btn_cell weui-btn_cell-primary"
+            >去登陆</a
+          >
         </div>
       </div>
       <div class="weui-cells__title">LIST</div>
@@ -45,7 +53,6 @@ export default {
   },
   computed: {},
   created() {
-      console.log(this.$store.state)
   },
   methods: {},
 };

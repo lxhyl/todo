@@ -9,19 +9,24 @@
 
 <script>
 import Tabbar from "./views/tabbar";
+
 export default {
   name: "App",
   components: {
     Tabbar,
   },
+  watch: {},
   data() {
     return {};
   },
-  created() {},
+  created() {
+  },
+  methods: {
+   
+  },
 };
 </script>
 <style scoped>
-
 .animation-leave-active {
   position: fixed;
   animation: moveLeave 0.3s linear;

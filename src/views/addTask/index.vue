@@ -57,7 +57,7 @@
               <div class="weui-cell__bd">
                 <input
                   type="datetime-local"
-                  v-model="form.data"
+                  v-model="form.date"
                   class="weui-input"
                 />
               </div>
@@ -71,7 +71,7 @@
 </template>
 <script>
 import createID from "../../utils/createID";
-import { isFutureDate } from "../../utils/data";
+import { isFutureDate } from "../../utils/date";
 import {  DB_add, } from "../../indexedDB/index";
 export default {
   computed: {
@@ -104,7 +104,7 @@ export default {
     },
     "form.data": function (n) {
       if (n) {
-        if (!isFutureDate(n)) {
+        if (!isFutureDate(n,10)) {
           this.rules.date = "至少十分钟以后";
         } else {
           this.rules.date = null;
@@ -119,7 +119,8 @@ export default {
       form: {
         title: "",
         des: "",
-        data: "",
+        date: "",
+        type:10
       },
       rules: {
         title: null,

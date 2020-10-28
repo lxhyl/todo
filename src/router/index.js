@@ -1,13 +1,17 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import store from '../store/index'
+
+import { DB_isOpen } from "../indexedDB/index";
 
 
 import Home from '../views/home/index'
 import Login from "../views/login/index"
 
+
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(err => err)
+    return originalPush.call(this, location).catch(err => err)
 }
 
 Vue.use(Router)
@@ -15,39 +19,39 @@ Vue.use(Router)
 const route = [
     {
         path: '/',
-        meta:{
-            requireAuth:false,
+        meta: {
+            requireAuth: false,
         },
         component: Home
     },
     {
         path: '/login',
         name: 'login',
-        meta:{
-            requireAuth:false,
+        meta: {
+            requireAuth: false,
         },
         component: Login
     },
     {
-        path:'/addTask',
-        meta:{
-            requireAuth:false,
+        path: '/addTask',
+        meta: {
+            requireAuth: false,
         },
-        component:() => import('../views/addTask/index')
+        component: () => import('../views/addTask/index')
     },
     {
-        path:'/me',
-        meta:{
-            requireAuth:false,
+        path: '/me',
+        meta: {
+            requireAuth: false,
         },
-        component:() => import('../views/me/index')
-    },{
-        path:'/task',
-        props:true,
-        meta:{
-            requireAuth:false
+        component: () => import('../views/me/index')
+    }, {
+        path: '/task',
+        props: true,
+        meta: {
+            requireAuth: false
         },
-        component:() => import('../views/task/index')
+        component: () => import('../views/task/index')
     }
 ]
 
@@ -65,19 +69,42 @@ const creatRouter = () => {
 
 
 const router = creatRouter();
-router.beforeEach((to,from,next) => {
-    if(to.meta.requireAuth){
-        if(localStorage.getItem('MAIL')){
+//indexDB是异步的，打开后才能执行操作
+let getAllData = () => {
+    return new Promise((resolve, reject) => {
+        let timer = setInterval(() => {
+            clearInterval(timer);
+            timer = null;
+            if (DB_isOpen) {
+                store.dispatch("queryAllTask").then((res) => {
+                    console.log("获取indexDB数据成功")
+                    resolve(res);
+                })
+                .catch(err => {
+                    reject(err);
+                })
+              
+            }
+        }, 100);
+    })
+
+}
+
+router.beforeEach((to, from, next) => {
+    getAllData()
+    // 如果需要登录
+    if (to.meta.requireAuth) {
+        if (localStorage.getItem('MAIL')) {
             next()
-        }else{
+        } else {
             next({
-                path:'/login',
-                query:{
-                    redirect:to.fullPath
+                path: '/login',
+                query: {
+                    redirect: to.fullPath
                 }
             })
         }
-    }else{
+    } else {
         next()
     }
 })
