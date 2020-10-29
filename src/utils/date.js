@@ -1,70 +1,120 @@
+import { numJoint0 ,floorNum} from './math'
+const now = () => Date.now();
+const dateObj = e => new Date(e);
+const date2ms = e => Date.parse(e);
+
+const oneMi = () => 60 * 1000;
+const oneH = () => 60 * oneMi();
+const oneD = () => 24 * oneH();
+const oneW = () => 7 * oneD();
+const oneMo = () => 30 * oneD();
+const oneY = () => 365 * oneD();
 
 
-export const getDateBase = data => {
-    data = new Date(data);
-    let y = data.getFullYear(),
-        mo = data.getMonth() + 1,
-        d = data.getDate(),
-        h = data.getHours(),
-        mi = data.getMinutes(),
-        s = data.getSeconds()
+const y = e => e.getFullYear();
+const mo = e => e.getMonth() + 1;
+const w = e => e.getDay() + 1;
+const d = e => e.getDate();
+const h = e => e.getHours();
+const mi = e => e.getMinutes();
+const s = e => e.getSeconds();
 
+
+
+const isBigOne = (a, b) => {
+    return a > b ? true : false
+}
+// 基础时间
+export const getDateBase = date => {
+    date = dateObj(date);
     return {
-        y,
-        mo: mo >= 10 ? mo : `0${mo}`,
-        d: d >= 10 ? d : `0${d}`,
-        h: h >= 10 ? h : `0${h}`,
-        mi: mi >= 10 ? mi : `0${mi}`,
-        s: s >= 10 ?  s : `0${s}`
+        y: y(date),
+        mo: numJoint0(mo(date)),
+        d: numJoint0(d(date)),
+        h: numJoint0(h(date)),
+        mi: numJoint0(mi(date)),
+        s: numJoint0(s(date)),
     }
+}
+
+/*
+*   是否是规定时间以后
+*   @param date 所选的时间,
+*   @param mi 未来多少时间
+*/
+export const isFutureDate = (date, mi) => {
+    return isBigOne(date2ms(date), now() + oneMi() * mi);
 }
 
 
 /*
-*   是否是规定时间以后
-*   @param data 所选的时间,
-*   @return 是否是未来
+*  将ms转为多少时间以后
 */
-export const isFutureDate = (data, mi) => {
-    data = Date.parse(data);
-    let now = Date.now() + 1000 * 60 * mi;
-    return data > now ? true : false;
-}
-
-
-// 如果同一年，则返回月以及月之后的
-export const formatNearDate = data => {
-    data = Date.parse(data);
-    let baseDate = getDateBase(data);
-    let oneH = 60 * 60 * 1000;
-    let oneD = 24 * oneH;
-    let oneM = 30 * oneD;
-    let oneY = 365 * oneM;
-    let now = Date.now();
-    let timeGap = data - now;
-
-    let result = ''
-    /*
-    *  会依次命中规则
-    *  大于零
-    */
-    switch (true) {
-        case timeGap < 0:
-            result = `已超时，原（${baseDate.y}-${baseDate.mo}-${baseDate.d}/${baseDate.h}:${baseDate.mi}）`
+export const ms2Date = (ms) => {
+    let result = null;
+    switch(true){
+        case ms > oneY():
+            result = `${floorNum(ms/oneY())}`;
             break
-        case timeGap > oneY:
-            result = `${baseDate.y}-${baseDate.mo}-${baseDate.d}/${baseDate.h}:${baseDate.mi}`
+        case ms > oneMo():
+            result = `${floorNum(ms/oneMo())}`;
             break
-        case timeGap > oneM:
-            result = `${baseDate.mo}-${baseDate.d}/${baseDate.h}:${baseDate.mi}`
+        case ms > oneW():
+            result = `${floorNum(ms/oneW())}`;
             break
-        case timeGap > oneD:
-            result = `${baseDate.d}日/${baseDate.h}:${baseDate.mi}(${Math.floor(timeGap/oneD)}天后)`
+        case ms > oneD():
+            result = `${floorNum(ms/oneD())}`;
             break
-        case timeGap > oneH:
-            result = `${baseDate.h}点${baseDate.mi}分`
+        case ms > oneH():
+            result = `${floorNum(ms/oneH())}`;
+            break
+        case ms > oneMi():
+            result = `${floorNum(ms/oneMi())}`;
+            break
         default:
-            result = `${baseDate.mi}分后`
+            result = `暂无匹配到的`
     }
     return result;
 }
+
+
+
+/*
+*  同一年，返回：月，日，时，分
+*  同年同月，返回：日，时，分
+*  依次类推...
+*/
+export const formatNearDate = date => {
+    date = date2ms(date);
+    let baseDate = getDateBase(date);
+    const { y, mo, d, h, mi } = baseDate;
+    let timeGap = date - now();
+    let result = null;
+    /*
+    *  会依次命中规则
+    */
+    switch (true) {
+        case timeGap < 0:
+            result = `已超时，原（${y}-${mo}-${d}/${h}:${mi}）`
+            break
+        case timeGap > oneY():
+            result = `${y}-${mo}-${d}/${h}:${mi}`
+            break
+        case timeGap > oneMo():
+            result = `${mo}-${d}/${h}:${mi}(${ms2Date(timeGap)}个月后)`
+            break
+        case timeGap > oneW():
+            result = `${d}日/${h}:${mi}(${ms2Date(timeGap)}周后)`
+            break
+        case timeGap > oneD():
+            result = `${d}日/${h}:${mi}(${ms2Date(timeGap)}天后)`
+            break
+        case timeGap > oneH():
+            result = `${h}点${mi}分(${ms2Date(timeGap)}小时后)`
+            break
+        default:
+            result = `${h}点${mi}分(${ms2Date(timeGap)}分钟后)`
+    }
+    return result;
+}
+

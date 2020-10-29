@@ -80,10 +80,10 @@ let getAllData = () => {
                     console.log("获取indexDB数据成功")
                     resolve(res);
                 })
-                .catch(err => {
-                    reject(err);
-                })
-              
+                    .catch(err => {
+                        reject(err);
+                    })
+
             }
         }, 100);
     })

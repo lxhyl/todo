@@ -16,44 +16,46 @@
         >
       </div>
     </div>
-    <div  style="margin-bottom:80px;">
-    <div
-      v-for="item in allTypeTask"
-      :key="item.id"
-      class="weui-form-preview card"
-    >
-      <div class="weui-form-preview__hd">
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">{{
-            item.type | formatType
-          }}</label>
-          <em class="weui-form-preview__value">{{ 1 }}</em>
+    <div style="margin-bottom: 80px">
+      <div
+        v-for="item in allTypeTask"
+        :key="item.id"
+        class="weui-form-preview card"
+      >
+        <div class="weui-form-preview__hd">
+          <div class="weui-form-preview__item">
+            <label class="weui-form-preview__label">{{
+              item.type | formatType
+            }}</label>
+            <em class="weui-form-preview__value">{{ 1 }}</em>
+          </div>
+        </div>
+        <div class="weui-form-preview__bd">
+          <div class="weui-form-preview__item">
+            <label class="weui-form-preview__label">标题</label>
+            <span class="weui-form-preview__value">{{ item.title }}</span>
+          </div>
+          <div class="weui-form-preview__item">
+            <label class="weui-form-preview__label">日期</label>
+            <span class="weui-form-preview__value"
+              >{{ item.date | formatDate }}
+            </span>
+          </div>
+          <div class="weui-form-preview__item">
+            <span class="weui-form-preview__value">
+              <label class="weui-form-preview__label">描述</label
+              >{{ item.des }}</span
+            >
+          </div>
+        </div>
+        <div class="weui-form-preview__ft">
+          <a
+            class="weui-form-preview__btn weui-form-preview__btn_primary"
+            href="javascript:"
+            >操作</a
+          >
         </div>
       </div>
-      <div class="weui-form-preview__bd">
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">标题</label>
-          <span class="weui-form-preview__value">{{ item.title }}</span>
-        </div>
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">日期</label>
-          <span class="weui-form-preview__value"
-            >{{ item.date | formatDate }}
-          </span>
-        </div>
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">描述</label>
-          <span class="weui-form-preview__value">{{ item.des }}</span>
-        </div>
-      </div>
-      <div class="weui-form-preview__ft">
-        <a
-          class="weui-form-preview__btn weui-form-preview__btn_primary"
-          href="javascript:"
-          >操作</a
-        >
-      </div>
-    </div>
     </div>
     <Picker
       v-if="pikerVisible"
