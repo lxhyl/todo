@@ -2,7 +2,7 @@
   <div>
     <div
       class="weui-form"
-      style="background-color: var(--weui-BG-0); padding: 0"
+      style=" padding: 0;"
     >
       <div class="weui-form__control-area">
         <div class="weui-cells__group weui-cells__group_form">

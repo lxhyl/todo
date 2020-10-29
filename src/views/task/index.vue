@@ -9,21 +9,25 @@
         <div class="placeholder">{{ sortTypeName }}</div>
       </div>
       <div class="weui-flex__item">
-        <a @click="pikerVisible = true" class="weui-btn weui-btn_mini weui-btn_default"
+        <a
+          @click="pikerVisible = true"
+          class="weui-btn weui-btn_mini weui-btn_default"
           >Select</a
         >
       </div>
     </div>
+    <div  style="margin-bottom:80px;">
     <div
       v-for="item in allTypeTask"
       :key="item.id"
-      class="weui-form-preview"
-      style="margin-bottom: 20px"
+      class="weui-form-preview card"
     >
       <div class="weui-form-preview__hd">
         <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">{{item.type | formatType}}</label>
-          <em class="weui-form-preview__value">{{1}}</em>
+          <label class="weui-form-preview__label">{{
+            item.type | formatType
+          }}</label>
+          <em class="weui-form-preview__value">{{ 1 }}</em>
         </div>
       </div>
       <div class="weui-form-preview__bd">
@@ -50,6 +54,7 @@
         >
       </div>
     </div>
+    </div>
     <Picker
       v-if="pikerVisible"
       :visible.sync="pikerVisible"
@@ -60,13 +65,13 @@
 </template>
 <script>
 import Picker from "../../components/Picker/index";
-import { getDateBase } from "../../utils/date";
-const TASK_TYPE_MAP ={   
-    10:'待做',
-    20:'已完成',
-    30:'过期',
-    100:'紧急'
-}
+import { getDateBase, formatNearDate } from "../../utils/date";
+const TASK_TYPE_MAP = {
+  10: "待做",
+  20: "已完成",
+  30: "过期",
+  100: "紧急",
+};
 export default {
   components: {
     Picker,
@@ -98,14 +103,18 @@ export default {
     },
   },
   filters: {
-    formatType(value){
-       return TASK_TYPE_MAP[value]
+    formatType(value) {
+      return TASK_TYPE_MAP[value];
     },
     formatDate(value) {
-      console.log("value", value);
-      let date = getDateBase(value);
-       return value
+      return formatNearDate(value);
     },
   },
 };
 </script>
+<style scoped>
+.card {
+  margin: 10px;
+  border-radius: 5px;
+}
+</style>

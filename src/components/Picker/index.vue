@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="weui-mask weui-animate-fade-in"></div>
+    <div @click="close" class="weui-mask weui-animate-fade-in"></div>
     <div class="weui-half-screen-dialog weui-picker weui-animate-slide-up">
       <div class="weui-half-screen-dialog__hd">
         <div class="weui-half-screen-dialog__hd__side">
