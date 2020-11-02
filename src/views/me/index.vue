@@ -22,23 +22,59 @@
       </div>
       <div class="weui-cells__title">LIST</div>
       <div class="weui-cell weui-cell_active weui-cell_access">
+        <div class="weui-cell__bd" @click="routerToTasksType(40)">
+          <span style="vertical-align: middle">紧急</span>
+          <span
+            v-if="tasksInfo.urgency"
+            class="weui-badge"
+            style="margin-left: 5px"
+            >{{ tasksInfo.urgency }}</span
+          >
+        </div>
+        <div class="weui-cell__ft"></div>
+      </div>
+      <div
+        class="weui-cell weui-cell_active weui-cell_access"
+        @click="routerToTasksType(10)"
+      >
         <div class="weui-cell__bd">
           <span style="vertical-align: middle">待办</span>
-          <span class="weui-badge" style="margin-left: 5px">8</span>
+          <span
+            v-if="tasksInfo.todo"
+            class="weui-badge"
+            style="margin-left: 5px"
+            >{{ tasksInfo.todo }}</span
+          >
         </div>
         <div class="weui-cell__ft"></div>
       </div>
-      <div class="weui-cell weui-cell_active weui-cell_access">
+      <div
+        class="weui-cell weui-cell_active weui-cell_access"
+        @click="routerToTasksType(20)"
+      >
         <div class="weui-cell__bd">
           <span style="vertical-align: middle">已办</span>
-          <span class="weui-badge" style="margin-left: 5px">8</span>
+          <span
+            v-if="tasksInfo.finished"
+            class="weui-badge"
+            style="margin-left: 5px"
+            >{{ tasksInfo.finished }}</span
+          >
         </div>
         <div class="weui-cell__ft"></div>
       </div>
-      <div class="weui-cell weui-cell_active weui-cell_access">
+      <div
+        class="weui-cell weui-cell_active weui-cell_access"
+        @click="routerToTasksType(30)"
+      >
         <div class="weui-cell__bd">
           <span style="vertical-align: middle">超时</span>
-          <span class="weui-badge" style="margin-left: 5px">New</span>
+          <span
+            v-if="tasksInfo.overdue"
+            class="weui-badge"
+            style="margin-left: 5px"
+            >{{ tasksInfo.overdue }}</span
+          >
         </div>
         <div class="weui-cell__ft"></div>
       </div>
@@ -51,10 +87,28 @@ export default {
   data() {
     return {};
   },
-  computed: {},
-  created() {
+  computed: {
+    tasksInfo() {
+      const tasks = this.$store.state.typeTask;
+      return {
+        todo: tasks.todo.length,
+        finished: tasks.finished.length,
+        overdue: tasks.overdue.length,
+        urgency: tasks.urgency.length,
+      };
+    },
   },
-  methods: {},
+  created() {},
+  methods: {
+    routerToTasksType(type) {
+      this.$router.push({
+        path: "/task",
+        query: {
+          sortType: type,
+        },
+      });
+    },
+  },
 };
 </script>
 <style scoped>

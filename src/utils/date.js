@@ -118,3 +118,9 @@ export const formatNearDate = date => {
     return result;
 }
 
+export const getFullDate = date => {
+    let baseDate = getDateBase(date);
+    const { y, mo, d, h, mi } = baseDate;
+    return `${y}-${mo}-${d}/${h}:${mi}`
+}
+

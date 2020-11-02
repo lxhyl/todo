@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div
-      class="weui-form"
-      style=" padding: 0;"
-    >
+    <div class="weui-form" style="padding: 0">
       <div class="weui-form__control-area">
         <div class="weui-cells__group weui-cells__group_form">
           <div class="weui-cells__title">新建任务</div>
@@ -72,8 +69,9 @@
 <script>
 import createID from "../../utils/createID";
 import { isFutureDate } from "../../utils/date";
-import {  DB_add, } from "../../indexedDB/index";
+import { DB_add, DB_change } from "../../indexedDB/index";
 export default {
+  props: ["task"],
   computed: {
     desWordNum() {
       return this.form.des.length;
@@ -104,7 +102,7 @@ export default {
     },
     "form.data": function (n) {
       if (n) {
-        if (!isFutureDate(n,10)) {
+        if (!isFutureDate(n, 10)) {
           this.rules.date = "至少十分钟以后";
         } else {
           this.rules.date = null;
@@ -120,7 +118,7 @@ export default {
         title: "",
         des: "",
         date: "",
-        type:10
+        type: 10,
       },
       rules: {
         title: null,
@@ -128,6 +126,12 @@ export default {
         date: null,
       },
     };
+  },
+  created() {
+    // 修改数据回显
+    if (this.task) {
+      this.form = this.task;
+    }
   },
   methods: {
     conformRules() {
@@ -148,19 +152,20 @@ export default {
         this.$message({ message: "检查表单", type: "error" });
         return;
       }
-      //未登录存储在本地
-      if (!this.$store.state.isLogin) {
-        console.log(this.form);
-        const res = await  DB_add(this.form);
-        this.$message({ message: "提交成功", type: "success" });
-        this.$router.push({
-            path:'/task',
-            params:{
-                type:'todo'
-            }
-        })
-        console.log(res);
+      // 如果是修改的
+      if (this.task) {
+        await DB_change(this.task.id, Object.assign(this.form, { type: 10 }));
+      } else {
+        await DB_add(this.form);
       }
+
+      this.$message({ message: "提交成功", type: "success" });
+      this.$router.push({
+        path: "/task",
+        params: {
+          type: "todo",
+        },
+      });
     },
   },
 };

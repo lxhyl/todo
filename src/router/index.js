@@ -34,9 +34,11 @@ const route = [
     },
     {
         path: '/addTask',
+        name:'addTask',
         meta: {
             requireAuth: false,
         },
+        props:true,
         component: () => import('../views/addTask/index')
     },
     {
@@ -77,7 +79,6 @@ let getAllData = () => {
             timer = null;
             if (DB_isOpen) {
                 store.dispatch("queryAllTask").then((res) => {
-                    console.log("获取indexDB数据成功")
                     resolve(res);
                 })
                     .catch(err => {

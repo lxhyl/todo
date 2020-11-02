@@ -29,7 +29,6 @@ const option = {
                 try {
                     const res = await DB_getAll();
                     commit('setAllTask', res);
-                    console.log('formatTask(res)',formatTask(res))
                     commit('setTypeTask',formatTask(res));
                     resolve(res);
                 }

@@ -171,7 +171,7 @@ export default {
     //确定
     submit() {
       // 将所选的index传递出去
-      this.$emit("change", this.chooseItemIndex);
+      this.$emit("change", this.list[this.chooseItemIndex].value);
       this.close();
     },
     close() {
